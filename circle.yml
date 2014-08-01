@@ -4,10 +4,11 @@ dependencies:
 
 test:
   override:
-    - ./bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY:
+    - ./bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -f ~/sc_ready:
         background: true
         pwd: sc-*-linux
+    - while [ ! -e ~/sc_ready ]; do sleep 1; done
     - python -m hello.hello_app:
         background: true
-    - sleep 60
+    - sleep 5
     - nosetests
