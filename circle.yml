@@ -21,5 +21,4 @@ test:
     - nosetests
 
   post:
-    - killall sc
-    - while ! grep -q 'Goodbye' $SAUCE_LOG; do sleep 1; done  # wait until Sauce Connect closes the tunnel
+    - killall --wait sc  # wait until Sauce Connect closes the tunnel
