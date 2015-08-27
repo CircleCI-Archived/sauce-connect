@@ -1,3 +1,7 @@
+machine:
+  environment:
+    SAUCE_LOG: $CIRCLE_ARTIFACTS/sauce_log.txt
+
 dependencies:
   post:
     - wget https://saucelabs.com/downloads/sc-latest-linux.tar.gz
@@ -5,7 +9,7 @@ dependencies:
 
 test:
   override:
-    - cd sc-*-linux && ./bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -f ~/sc_ready:
+    - cd sc-*-linux && ./bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -f ~/sc_ready > $SAUCE_LOG:
         background: true
     # Wait for tunnel to be ready
     - while [ ! -e ~/sc_ready ]; do sleep 1; done
@@ -15,3 +19,6 @@ test:
     - curl --retry 10 --retry-delay 2 -v http://localhost:5000
     # Run selenium tests
     - nosetests
+
+  post:
+    - killall --wait sc  # wait until Sauce Connect closes the tunnel
