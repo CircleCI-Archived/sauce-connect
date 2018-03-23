@@ -1,9 +1,13 @@
+"""hello_app"""
 from flask import Flask
-app = Flask(__name__)
+APP = Flask(__name__)
 
-@app.route('/')
+
+@APP.route('/')
 def hello():
+    """hello"""
     return 'Hello World, I love continuous delivery!'
 
+
 if __name__ == '__main__':
-    app.run()
+    APP.run()
